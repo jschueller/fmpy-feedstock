@@ -1,16 +1,16 @@
 package:
   name: fmpy
-  version: 0.3.20
+  version: 0.3.27
 
 source:
-  url: https://files.pythonhosted.org/packages/4a/de/abc4e60c36de7dc16535a63511240b2430124f3d708ddb59d641065de60a/FMPy-0.3.20-py3-none-any.whl
-  sha256: 3993b4fc961c754340b100be718783f55d8169ad456ee7b376f551f278cf91d5
-  # macOS: shasum -a 256 <file>
-  # Windows: certutil -hashfile <file> SHA256
+  # url: https://github.com/CATIA-Systems/FMPy/archive/refs/tags/v{{ version }}.tar.gz
+  # sha256: c46595f5f5e5e202a85c5c44c663db66e2e283f3919944849ad62de4dbe9f6f9
+  # use git because no tarball including submodules is available
+  git_url: https://github.com/CATIA-Systems/FMPy.git
+  git_tag: v{{ version }}
 
 build:
   number: 0
-  skip: true  # [win and vc<14]
   entry_points:
     - fmpy = fmpy.command_line:main
 
@@ -20,11 +20,16 @@ outputs:
     script: build_base.bat  # [win]
     script: build_base.sh  # [not win]
     requirements:
+      build:
+        - cmake
+        - {{ compiler('c') }}
+        - {{ stdlib("c") }}
+        - {{ compiler('cxx') }}
       host:
-        - python >=3.5
+        - python >=3.10
         - pip
       run:
-        - python >=3.5
+        - python >=3.10
         - attrs
         - jinja2
         - lark
@@ -77,3 +82,4 @@ extra:
   recipe-maintainers:
     - t-sommer
     - wulmer
+    - jschueller
