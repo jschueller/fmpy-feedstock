@@ -1,21 +1,21 @@
+{% set version = "0.3.27" %}
+
 package:
   name: fmpy
-  version: 0.3.20
+  version: {{ version }}
 
 source:
-  url: https://files.pythonhosted.org/packages/4a/de/abc4e60c36de7dc16535a63511240b2430124f3d708ddb59d641065de60a/FMPy-0.3.20-py3-none-any.whl
-  sha256: 3993b4fc961c754340b100be718783f55d8169ad456ee7b376f551f278cf91d5
+  url: https://pypi.org/packages/py3/f/fmpy/fmpy-{{ version }}-py3-none-any.whl
+  sha256: 0c2c270dd39e4303e7200dd62626f4d80e76cda4a2ca3a8e542bd4f70522eddf
   # macOS: shasum -a 256 <file>
   # Windows: certutil -hashfile <file> SHA256
 
 build:
   number: 0
-  skip: true  # [win and vc<14]
   entry_points:
     - fmpy = fmpy.command_line:main
 
 outputs:
-
   - name: fmpy-base
     script: build_base.bat  # [win]
     script: build_base.sh  # [not win]
@@ -38,9 +38,8 @@ outputs:
         - fmpy.cross_check
         - fmpy.examples
         - fmpy.fmucontainer
-        - fmpy.modelica
         - fmpy.ssp
-        - fmpy.sundials  # [not linux]
+        - fmpy.sundials  # [(win and x86_64) or (osx and arm64) or (linux and x86_64)]
 
   - name: fmpy
     build:
@@ -77,3 +76,4 @@ extra:
   recipe-maintainers:
     - t-sommer
     - wulmer
+    - jschueller
