@@ -23,6 +23,7 @@ outputs:
       host:
         - python >=3.5
         - pip
+        - setuptools
       run:
         - python >=3.5
         - attrs
